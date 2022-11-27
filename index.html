@@ -86,7 +86,13 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+<script>
+  window.TrackJS && TrackJS.install({ 
+    token: "e9506e82d32645bab1f4696ce91ae86b"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+</script>
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -99,6 +105,166 @@
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    
+    // console log
+    var buttonsLog = errorBtns[0];
+    buttonsLog.addEventListener("click", ()=>{
+      console.log("Console Log Demo");
+    });
+    // console error
+    var buttonsError = errorBtns[1];
+    buttonsError.addEventListener("click", ()=>{
+      console.error("Console Error Demo");
+    });
+    // Console count
+    var buttonsCount = errorBtns[2];
+    buttonsCount.addEventListener("click", ()=>{
+      console.count("Count Button");
+    });
+    // Console Warn 
+    var buttonsWarn = errorBtns[3];
+    buttonsWarn.addEventListener("click", ()=>{
+      console.warn("Console Warn Button");
+    });
+    // Console Assert
+    var buttonsAssert = errorBtns[4];
+    buttonsAssert.addEventListener("click", ()=>{
+      const number = 2;
+      const errorMsg = "the number 2 does not equal 3";
+      console.assert(number == 3, '%o', { number, errorMsg });
+    });
+    // Console Clear
+    var buttonsClear = errorBtns[5];
+    buttonsClear.addEventListener("click", ()=>{
+      console.clear();
+    });
+    // Console Dir
+    var buttonsDir = errorBtns[6];
+    buttonsDir.addEventListener("click", ()=>{
+      console.dir(buttonsDir);
+    });
+    // Console dirxml
+    var buttonsXml = errorBtns[7];
+    buttonsXml.addEventListener("click", ()=>{
+      console.dirxml(buttonsXml);
+    });
+    // Console GroupStart
+    var buttonsGroupStart = errorBtns[8];
+    buttonsGroupStart.addEventListener("click", ()=>{
+      console.group();
+    });
+    // Console GroupEnd
+    var buttonsGroupEnd = errorBtns[9];
+    buttonsGroupEnd.addEventListener("click", ()=>{
+      console.groupEnd();
+    });
+
+
+    function Person(Name, Score) {
+      this.Name = Name;
+      this.Score = Score;
+    }
+
+    const tyrone = new Person("Tyrone", 100);
+    const janet = new Person("Janet", 87);
+    const maria = new Person("Maria", 66);
+
+    // Console Table
+    var buttonsTable = errorBtns[10];
+    buttonsTable.addEventListener("click", ()=>{
+      console.table([tyrone, janet, maria]);
+    });
+    // Console StartTime
+    var buttonsStartTime = errorBtns[11];
+    buttonsStartTime.addEventListener("click", ()=>{
+      console.time();
+    });
+    // Console EndTime
+    var buttonsEndTime = errorBtns[12];
+    buttonsEndTime.addEventListener("click", ()=>{
+      console.timeEnd();
+    });
+    // Console Trace
+    var buttonsTrace = errorBtns[13];
+    buttonsTrace.addEventListener("click", ()=>{
+      function handleBtnClick(){
+        function deep(){
+          function deeper(){
+            function deepest(){
+              console.trace();
+            }
+            deepest();
+          }
+          deeper();
+        }
+        deep();
+      }
+      handleBtnClick();
+    });
+    // Console TriggerGlobalError
+    var buttonsGlobalError = errorBtns[14];
+    buttonsGlobalError.addEventListener("click", ()=>{
+      throw new Error("fail");
+
+    });
+    // step 3
+    var buttons3 = document.createElement("button");
+    buttons3.innerHTML = "step 3";
+    document.querySelector("#error-btns").appendChild(buttons3);
+    function addWith3(a, b) {
+      return a + b + 3;
+    }
+    buttons3.addEventListener("click", () => {
+    try {
+          console.log("start add");
+          let res = addWith3(1, 1);
+          if (res == 2) {
+            console.log("3:add successfully");
+          }
+          else{
+            console.log("3:try: add result worng");
+            throw new Error();
+          }
+        } catch (err) {
+          alert("3:catch: add function for 1+1 is not working");
+        } finally {
+          alert("3:finally: add function test end");
+        }
+    });
+    // step 4
+    let json = `{ "name": "John"}`;
+
+    class ValidationError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "ValidationError";
+      }
+    }
+
+    var buttons4 = document.createElement("button");
+    buttons4.innerHTML = "step 4";
+    document.querySelector("#error-btns").appendChild(buttons4);
+    buttons4.addEventListener("click", ()=>{
+      let user = JSON.parse(json);
+      if (!user.age) {
+        alert("4: No field age");
+        throw new ValidationError("4: No field: age");
+      }
+      if (!user.name) {
+        alert("4: No field namess");
+        throw new ValidationError("4: No field: name");
+      }
+    });
+  
+    // Step 5
+    var buttons5 = document.createElement("button");
+    buttons5.innerHTML = "step 5";
+    document.querySelector("#error-btns").appendChild(buttons5);
+
+    buttons5.onerror = function(message, url, linenumber) {
+	    alert('5: JavaScript error: ' + message + ' on line ' + linenumber + ' for ' + url);
+      console.log('5: JavaScript error: ' + message + ' on line ' + linenumber + ' for ' + url)
+    }
 
     // Start your code here
     // You may move this JS to another file if you wish
