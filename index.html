@@ -256,7 +256,20 @@
       }
     });
   
-    // step 5 is everywhere
+    window.onerror = function (msg, lineNo, columnNo){
+      alert('msg: ' + msg +  ' lineNo: ' + lineNo + ' columnNo: ' 
+            + columnNo);
+    }
+    var buttons5 = document.createElement("button");
+    buttons5.innerHTML = "step 5";
+    document.querySelector("#error-btns").appendChild(buttons5);
+    buttons5.addEventListener("click", ()=>{
+      wrongwrongwrong
+      if(window.onerror) {
+        console.log("Step 5: error occur");
+      }
+    });
+
 
     // Start your code here
     // You may move this JS to another file if you wish
